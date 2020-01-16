@@ -11,6 +11,11 @@ public class User implements Serializable {
         this.pseudo = pseudo;
         this.connected = false;
     }
+    public User(InetAddress ip, String pseudo, Boolean connected) {
+    	this.ip = ip;
+        this.pseudo = pseudo;
+        this.connected = connected;
+    }
 
     public void setPseudo(String pseudo) {
         this.pseudo = pseudo;
@@ -37,7 +42,7 @@ public class User implements Serializable {
     }
 
     public String toString () {
-        String print = ip.getHostAddress() + " " + pseudo;
+        String print = ip.getHostAddress() + " " + pseudo + " connected = " + this.connected;
         return print;
     }
 }

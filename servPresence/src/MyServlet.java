@@ -31,7 +31,8 @@ public class MyServlet extends HttpServlet {
      */
     public MyServlet() throws ServletException {
     }
-
+    /* Appelé lors de la première requête, instancie la liste des utilisateurs */
+    
     public void init(ServletConfig conf) throws ServletException {
     	   System.out.println("Initialisation du servlet");
     	   this.conf = conf;
@@ -50,12 +51,17 @@ public class MyServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		System.out.println("Nouvelle requete GET");
-		// envoi des infos de l'en-tete
-		//response.setContentType("text/html");
-		//response.setContentLength(.length());
-		   
+		InetAddress ip = InetAddress.getByName(request.getParameter("ip"));
+		String pseudo = request.getParameter("pseudo");
+		String status = request.getParameter("status");
+		Boolean connected = true;
+		if (status.equals("false"))
+			connected = false;
+		System.out.println("Création d'un nouveau user");
+		User new_user = new User (ip, pseudo, connected);
+		users.add(new_user);
+		System.out.println(new_user.toString());
 		// envoi de la réponse
 		for (User u : users) {
 			response.getOutputStream().print(u.getPseudo());
@@ -74,8 +80,7 @@ public class MyServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
-		String ip = request.getParameter("ip");
-		String pseudo = request.getParameter("pseudo");
+		
 		
 		//doGet(request, response);
 	}
